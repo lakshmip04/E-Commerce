@@ -2,11 +2,27 @@
 
 //object to represent each product-groups multiple values together
 //array datastructure was used
-import {cart} from '../data/cart.js'; //importing a module
+import {cart,addToCart} from '../data/cart.js'; //importing a module
 import {products} from '../data/products.js';
 
 
 let productsHTML='';
+
+
+
+//updating the quantity
+function updateCartQuantity(){
+    let cartQuantity=0;
+        cart.forEach((cartItem)=>{
+            cartQuantity+=cartItem.quantity;
+            
+        })
+        console.log(cart);
+        console.log(cartQuantity);
+
+        document.querySelector('.js-cart-quantity').innerHTML=cartQuantity
+
+}
 
 products.forEach((product)=>{
     productsHTML+=
@@ -30,7 +46,7 @@ products.forEach((product)=>{
           </div>
 
           <div class="product-price">
-            Rs.${((product.priceCents/100)*80).toFixed(2)}
+            Rs.${((product.priceCents/100)*83).toFixed(2)}
           </div>
 
           <div class="product-quantity-container">
@@ -65,12 +81,12 @@ products.forEach((product)=>{
         
         
 })
-let timeoutId;
+const timeoutId=null;
 document.querySelector('.js-products-grid').innerHTML=productsHTML;
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
     button.addEventListener('click',()=>{
         console.log('added product');
-        let matchingItem;
+        
         
         const {productName} = button.dataset; //destructuring
         const productId= button.dataset.productId;
@@ -79,36 +95,21 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         const productQuantity = Number(productContainer.querySelector('.js-quantity-selector').value);
         console.log(productQuantity)
         
-        cart.forEach((item)=>{
-            if (productId == item.productId){
-                matchingItem =item;
-            }
-        })
-        if(matchingItem){
-            matchingItem.quantity+=productQuantity;
-        }else{
-            cart.push({
-                productId, //destructuring
-                productName:productName,
-                quantity:productQuantity
-            })
-        }
-        let cartQuantity=0;
-        cart.forEach((item)=>{
-            cartQuantity+=item.quantity;
-            
-        })
-        console.log(cart);
-        console.log(cartQuantity);
+        addToCart(productId,productName,productQuantity);//function is in cart.js
 
-        document.querySelector('.js-cart-quantity').innerHTML=cartQuantity
+        updateCartQuantity();
+        
+        
 
         const addedEle=productContainer.querySelector('.added-to-cart');
         addedEle.classList.add("changeOpacity");
+        if (addedEle.timeoutId){
+            clearTimeout(timeoutId);
+        }
         
-        clearTimeout(timeoutId);
         timeoutId=setTimeout(()=>{
             addedEle.classList.remove("changeOpacity")
+            
         },2000);
     })
 })
