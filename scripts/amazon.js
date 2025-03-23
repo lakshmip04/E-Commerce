@@ -30,7 +30,7 @@ products.forEach((product)=>{
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -70,18 +70,23 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         
         const productName = button.dataset.productName;
         const productId= button.dataset.productId;
+        // Get the correct quantity dropdown inside the specific product container
+        const productContainer = button.closest('.product-container');
+        const productQuantity = Number(productContainer.querySelector('.js-quantity-selector').value);
+        console.log(productQuantity)
+        
         cart.forEach((item)=>{
             if (productId == item.productId){
                 matchingItem =item;
             }
         })
         if(matchingItem){
-            matchingItem.quantity+=1;
+            matchingItem.quantity+=productQuantity;
         }else{
             cart.push({
                 productId:productId,
                 productName:productName,
-                quantity:1
+                quantity:productQuantity
             })
         }
         let cartQuantity=0;
