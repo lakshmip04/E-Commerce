@@ -26,7 +26,7 @@ products.forEach((product)=>{
           </div>
 
           <div class="product-price">
-            $${(product.priceCents/100).toFixed(2)}
+            Rs.${((product.priceCents/100)*80).toFixed(2)}
           </div>
 
           <div class="product-quantity-container">
@@ -61,14 +61,14 @@ products.forEach((product)=>{
         
         
 })
-
+let timeoutId;
 document.querySelector('.js-products-grid').innerHTML=productsHTML;
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
     button.addEventListener('click',()=>{
         console.log('added product');
         let matchingItem;
         
-        const productName = button.dataset.productName;
+        const {productName} = button.dataset; //destructuring
         const productId= button.dataset.productId;
         // Get the correct quantity dropdown inside the specific product container
         const productContainer = button.closest('.product-container');
@@ -84,7 +84,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
             matchingItem.quantity+=productQuantity;
         }else{
             cart.push({
-                productId:productId,
+                productId, //destructuring
                 productName:productName,
                 quantity:productQuantity
             })
@@ -98,6 +98,14 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         console.log(cartQuantity);
 
         document.querySelector('.js-cart-quantity').innerHTML=cartQuantity
+
+        const addedEle=productContainer.querySelector('.added-to-cart');
+        addedEle.classList.add("changeOpacity");
+        
+        clearTimeout(timeoutId);
+        timeoutId=setTimeout(()=>{
+            addedEle.classList.remove("changeOpacity")
+        },2000);
     })
 })
 //if its in cart update
