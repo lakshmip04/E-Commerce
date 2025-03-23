@@ -1,4 +1,4 @@
-const cart=[];
+export const cart=[];
 //data attribute- is just another html attribute
 //allows us to attach any info to an element
 //syntax for data attribute

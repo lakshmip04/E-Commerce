@@ -2,6 +2,8 @@
 
 //object to represent each product-groups multiple values together
 //array datastructure was used
+import {cart} from '../data/cart.js'; //importing a module
+
 let productsHTML='';
 
 products.forEach((product)=>{
