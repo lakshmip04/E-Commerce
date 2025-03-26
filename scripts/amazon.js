@@ -9,7 +9,7 @@ import { formatCurrency } from './utils/money.js';
 let productsHTML='';
 
 
-
+updateCartQuantity();
 //updating the quantity
 function updateCartQuantity(){
     let cartQuantity=0;
