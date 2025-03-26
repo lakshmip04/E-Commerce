@@ -1,6 +1,6 @@
 //de-duplicating data or normalizing data as with product id, we'll get other details
 
-import { cart,removeFromCart } from "../data/cart.js";
+import { cart,removeFromCart,calculateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
@@ -116,23 +116,11 @@ document.querySelectorAll('.delete-quantity-link')
                 container.remove();
             }
 
-            updateCartQuantity(); // Corrected placement
+            calculateCartQuantity(); // Corrected placement
         });
     });
 
-function updateCartQuantity() {
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
 
-  console.log(cart);
-  console.log(cartQuantity);
 
-  const homeLink = document.querySelector('.js-return-to-home-link');
-  if (homeLink) {
-    homeLink.innerHTML = `${cartQuantity} items`;
-  }
-}
-
-updateCartQuantity();
+let cartQuantity=calculateCartQuantity();
+document.querySelector('.js-return-to-home-link').innerHTML=`${cartQuantity} items`

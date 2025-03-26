@@ -2,27 +2,17 @@
 
 //object to represent each product-groups multiple values together
 //array datastructure was used
-import {cart,addToCart} from '../data/cart.js'; //importing a module
+import {cart,addToCart,calculateCartQuantity} from '../data/cart.js'; //importing a module
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
 let productsHTML='';
 
 
-updateCartQuantity();
+const cartQuantity=calculateCartQuantity();
+document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
 //updating the quantity
-function updateCartQuantity(){
-    let cartQuantity=0;
-        cart.forEach((cartItem)=>{
-            cartQuantity+=cartItem.quantity;
-            
-        })
-        console.log(cart);
-        console.log(cartQuantity);
 
-        document.querySelector('.js-cart-quantity').innerHTML=cartQuantity
-
-}
 
 products.forEach((product)=>{
     productsHTML+=
@@ -97,7 +87,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         
         addToCart(productId,productName,productQuantity);//function is in cart.js
 
-        updateCartQuantity();
+        calculateCartQuantity();
         
         
 
